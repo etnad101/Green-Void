@@ -9,6 +9,7 @@ find_package(SDL2_image REQUIRED CONFIG)
 add_executable(GreenVoid 
     src/main.cpp 
     src/Game.cpp
+    src/Renderable.cpp
     src/TextureManager.cpp
 )
 

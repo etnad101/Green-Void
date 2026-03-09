@@ -57,8 +57,23 @@ bool Game::init() {
 
     initTextures();
 
+    int size = 32;
+    for (int i = 0; i < m_width / size; i++) {
+        for (int j = 0; j < m_height / size; j++) {
+            m_renderables.push_back(Renderable(i * size, j * size, size, size, "test_tile"));
+        }
+    }
+
     m_running = true;
     return true;
+}
+
+void Game::render() {
+    for (Renderable r : m_renderables) {
+        SDL_Texture* tex = m_textureManager.getTexture(r.getTextureHandle());
+        SDL_Rect dst = r.getRect();
+        SDL_RenderCopy(m_renderer.get(), tex, nullptr, &dst);
+    }
 }
 
 void Game::run() {
@@ -74,13 +89,7 @@ void Game::run() {
         SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
         SDL_RenderClear(m_renderer.get());
 
-        SDL_Rect dst;
-        dst.x = 0;
-        dst.y = 0;
-        dst.w = 32;
-        dst.h = 32;
-
-        SDL_RenderCopy(m_renderer.get(), m_textureManager.getTexture("test_tile"), nullptr, &dst);
+        render();
 
         SDL_RenderPresent(m_renderer.get());
     }
