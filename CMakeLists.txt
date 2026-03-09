@@ -8,9 +8,11 @@ find_package(SDL2_image REQUIRED CONFIG)
 
 add_executable(GreenVoid 
     src/main.cpp 
-    src/Game.cpp
+    src/Engine.cpp
     src/Renderable.cpp
+    src/Tile.cpp
     src/TextureManager.cpp
+    src/Player.cpp
 )
 
 target_include_directories(GreenVoid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)

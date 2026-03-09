@@ -1,25 +1,27 @@
-#include "Game.h"
+#include "Engine.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
 #include <iostream>
 #include "TextureManager.h"
 
-Game::Game(int width, int height, const std::string& title)
+Engine::Engine(int width, int height, const std::string& title)
     : m_width(width), m_height(height), m_title(title),
       m_window(nullptr), m_renderer(nullptr), m_running(false) {}
 
-Game::~Game() {
+Engine::~Engine() {
     clean();
 }
 
-void Game::initTextures() {
+void Engine::initTextures() {
     m_textureManager = TextureManager(m_renderer);
 
     m_textureManager.loadTexture("test_tile", "./Assets/test_tile.png");
+    m_textureManager.loadTexture("grass_tile", "./Assets/grass_tile.png");
+    m_textureManager.loadTexture("robot", "./Assets/robot.png");
 }
 
-bool Game::init() {
+bool Engine::init() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
         return false;
@@ -57,26 +59,29 @@ bool Game::init() {
 
     initTextures();
 
-    int size = 32;
-    for (int i = 0; i < m_width / size; i++) {
-        for (int j = 0; j < m_height / size; j++) {
-            m_renderables.push_back(Renderable(i * size, j * size, size, size, "test_tile"));
-        }
-    }
-
     m_running = true;
     return true;
 }
 
-void Game::render() {
-    for (Renderable r : m_renderables) {
-        SDL_Texture* tex = m_textureManager.getTexture(r.getTextureHandle());
-        SDL_Rect dst = r.getRect();
-        SDL_RenderCopy(m_renderer.get(), tex, nullptr, &dst);
+void Engine::addRenderable(Renderable r) {
+    m_renderables.push_back(r);
+}
+
+
+void Engine::render(Renderable r) {
+    SDL_Texture* tex = m_textureManager.getTexture(r.getTextureHandle());
+    SDL_Rect dst = r.getRect();
+    dst.x += (m_width / 2) - 32;
+    SDL_RenderCopy(m_renderer.get(), tex, nullptr, &dst);
+}
+
+void Engine::render(std::vector<Renderable> renderables) {
+    for (Renderable r : renderables) {
+        render(r);
     }
 }
 
-void Game::run() {
+void Engine::run() {
     SDL_Event event;
 
     while (m_running) {
@@ -89,13 +94,15 @@ void Game::run() {
         SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
         SDL_RenderClear(m_renderer.get());
 
-        render();
+        m_player.move(1, 1);
+        render(m_renderables);
+        render(m_player);
 
         SDL_RenderPresent(m_renderer.get());
     }
 }
 
-void Game::clean() {
+void Engine::clean() {
     if (m_window) {
         SDL_DestroyWindow(m_window);
         m_window = nullptr;

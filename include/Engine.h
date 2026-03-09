@@ -7,12 +7,12 @@
 #include <vector>
 #include "TextureManager.h"
 #include "Renderable.h"
+#include "Player.h"
 
-class Game {
+class Engine {
 public:
-    Game(int width = 800, int height = 600, const std::string& title = "Green Void");
-    ~Game();
-
+    Engine(int width = 800, int height = 600, const std::string& title = "Green Void");
+    ~Engine();
 
     bool init();
 
@@ -22,10 +22,16 @@ public:
 
     bool isRunning() const { return m_running; }
 
+    void addRenderable(Renderable r);
+
+    // TODO: Move this somewhere else
+    Player m_player;
+
 private:
     void initTextures();
 
-    void render();
+    void render(Renderable r);
+    void render(std::vector<Renderable> renderables);
 
 private:
     int m_width;

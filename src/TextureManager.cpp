@@ -18,6 +18,8 @@ TextureManager::~TextureManager() {
 }
 
 bool TextureManager::loadTexture(std::string id, std::string path) {
+    std::cout << "Loading texture '" << id << "' from '" << path << "'\n";
+
     SDL_Texture* newTexture = nullptr;
     SDL_Surface* loadedImage = IMG_Load(path.c_str());
     if (loadedImage == nullptr) {
