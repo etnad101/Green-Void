@@ -5,10 +5,10 @@
 #include <unordered_map>
 #include <string>
 
-TextureManager::TextureManager() 
+TextureManager::TextureManager()
 : m_renderer(nullptr) {}
 
-TextureManager::TextureManager(std::shared_ptr<SDL_Renderer> renderer) 
+TextureManager::TextureManager(std::shared_ptr<SDL_Renderer> renderer)
 : m_renderer(renderer) {}
 
 TextureManager::~TextureManager() {
@@ -48,4 +48,3 @@ bool TextureManager::loadTexture(std::string id, std::string path) {
 SDL_Texture* TextureManager::getTexture(std::string id) {
     return m_textures.at(id);
 }
-

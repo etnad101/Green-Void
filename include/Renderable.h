@@ -7,8 +7,8 @@ public:
     Renderable(float x, float y, int w, int h, std::string texHandle);
 
     void setTextureHandle(std::string handle);
-    std::string getTextureHandle();
-    SDL_Rect getRect();
+    std::string getTextureHandle() const;
+    SDL_Rect getRect() const;
 
 protected:
     float m_x;

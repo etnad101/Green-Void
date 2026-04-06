@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <unordered_map>
+#include <memory>
 #include <string>
 
 class TextureManager {

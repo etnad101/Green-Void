@@ -6,8 +6,7 @@
 #include "TextureManager.h"
 
 Engine::Engine(int width, int height, const std::string& title)
-    : m_width(width), m_height(height), m_title(title),
-      m_window(nullptr), m_renderer(nullptr), m_running(false) {}
+    : m_width(width), m_height(height), m_title(title) {}
 
 Engine::~Engine() {
     clean();
@@ -63,43 +62,52 @@ bool Engine::init() {
     return true;
 }
 
-void Engine::addRenderable(Renderable r) {
+void Engine::addRenderable(const Renderable* r) {
     m_renderables.push_back(r);
 }
 
 
-void Engine::render(Renderable r) {
-    SDL_Texture* tex = m_textureManager.getTexture(r.getTextureHandle());
-    SDL_Rect dst = r.getRect();
+void Engine::render(const Renderable *r) {
+    SDL_Texture* tex = m_textureManager.getTexture(r->getTextureHandle());
+    SDL_Rect dst = r->getRect();
     dst.x += (m_width / 2) - 32;
     SDL_RenderCopy(m_renderer.get(), tex, nullptr, &dst);
 }
 
-void Engine::render(std::vector<Renderable> renderables) {
-    for (Renderable r : renderables) {
+void Engine::render(std::vector<const Renderable*> renderables) {
+    for (auto r : renderables) {
         render(r);
     }
 }
 
-void Engine::run() {
+bool Engine::isKeyPressed(SDL_Keycode key) const {
+    auto it = m_keysPressed.find(key);
+    return it != m_keysPressed.end() && it->second;
+}
+
+void Engine::tick() {
     SDL_Event event;
 
-    while (m_running) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
                 m_running = false;
-            }
+                break;
+            case SDL_KEYDOWN:
+                m_keysPressed[event.key.keysym.sym] = true;
+                break;
+            case SDL_KEYUP:
+                m_keysPressed[event.key.keysym.sym] = false;
+                break;
         }
-
-        SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
-        SDL_RenderClear(m_renderer.get());
-
-        m_player.move(1, 1);
-        render(m_renderables);
-        render(m_player);
-
-        SDL_RenderPresent(m_renderer.get());
     }
+
+    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
+    SDL_RenderClear(m_renderer.get());
+
+    render(m_renderables);
+
+    SDL_RenderPresent(m_renderer.get());
 }
 
 void Engine::clean() {

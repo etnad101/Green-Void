@@ -2,8 +2,9 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <stdexcept>
 #include <string>
-#include <iostream>
+#include <unordered_map>
 #include <vector>
 #include "TextureManager.h"
 #include "Renderable.h"
@@ -16,33 +17,34 @@ public:
 
     bool init();
 
-    void run();
+    void tick();
 
     void clean();
 
     bool isRunning() const { return m_running; }
 
-    void addRenderable(Renderable r);
+    void addRenderable(const Renderable *r);
 
-    // TODO: Move this somewhere else
-    Player m_player;
+    bool isKeyPressed(SDL_Keycode key) const;
 
 private:
     void initTextures();
 
-    void render(Renderable r);
-    void render(std::vector<Renderable> renderables);
+    void render(const Renderable* r);
+    void render(std::vector<const Renderable*> renderables);
 
 private:
     int m_width;
     int m_height;
     std::string m_title;
 
-    SDL_Window* m_window;
-    std::shared_ptr<SDL_Renderer> m_renderer;
+    SDL_Window* m_window = nullptr;
+    std::shared_ptr<SDL_Renderer> m_renderer = nullptr;
 
     TextureManager m_textureManager;
-    std::vector<Renderable> m_renderables;
+    std::vector<const Renderable*> m_renderables;
 
-    bool m_running;
+    std::unordered_map<SDL_Keycode, bool> m_keysPressed;
+
+    bool m_running = false;
 };
