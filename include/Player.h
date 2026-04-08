@@ -12,6 +12,6 @@ public:
     void move(int xDir, int yDir);
 
 private:
-    float m_speed = 0.01;
+    float m_speed = 0.02;
 
 };

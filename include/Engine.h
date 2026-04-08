@@ -2,13 +2,12 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include <stdexcept>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "Camera.h"
 #include "TextureManager.h"
 #include "Renderable.h"
-#include "Player.h"
 
 class Engine {
 public:
@@ -26,6 +25,9 @@ public:
     void addRenderable(const Renderable *r);
 
     bool isKeyPressed(SDL_Keycode key) const;
+
+public:
+    Camera camera;
 
 private:
     void initTextures();

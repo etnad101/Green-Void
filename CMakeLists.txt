@@ -15,6 +15,7 @@ add_executable(GreenVoid
     src/Player.cpp
     src/World.cpp
     src/Game.cpp
+    src/Camera.cpp
 )
 
 target_include_directories(GreenVoid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
