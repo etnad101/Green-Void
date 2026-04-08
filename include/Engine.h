@@ -5,6 +5,7 @@
 #include "TextureManager.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -26,6 +27,8 @@ class Engine {
 
     bool isKeyPressed(SDL_Keycode key) const;
 
+    inline float getDeltaTime() { return m_deltaTime; }
+
   public:
     Camera camera;
 
@@ -39,6 +42,9 @@ class Engine {
     int m_width;
     int m_height;
     std::string m_title;
+
+    float m_deltaTime = 0;
+    uint64_t m_prevTime = 0;
 
     SDL_Window* m_window = nullptr;
     std::shared_ptr<SDL_Renderer> m_renderer = nullptr;

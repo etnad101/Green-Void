@@ -27,17 +27,19 @@ bool Game::init() {
 
 void Game::run() {
     while (m_engine.isRunning()) {
+        float deltaTime = m_engine.getDeltaTime();
+
         if (m_engine.isKeyPressed(SDLK_w)) {
-            m_player.move(-1, -1);
+            m_player.move(-1, -1, deltaTime);
         }
         if (m_engine.isKeyPressed(SDLK_s)) {
-            m_player.move(1, 1);
+            m_player.move(1, 1, deltaTime);
         }
         if (m_engine.isKeyPressed(SDLK_a)) {
-            m_player.move(-1, 1);
+            m_player.move(-1, 1, deltaTime);
         }
         if (m_engine.isKeyPressed(SDLK_d)) {
-            m_player.move(1, -1);
+            m_player.move(1, -1, deltaTime);
         }
 
         m_engine.camera.follow(m_player);

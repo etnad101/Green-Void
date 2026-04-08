@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_timer.h>
 #include <iostream>
 #include <string>
 
@@ -80,6 +81,10 @@ bool Engine::isKeyPressed(SDL_Keycode key) const {
 }
 
 void Engine::tick() {
+    uint64_t now = SDL_GetPerformanceCounter();
+    m_deltaTime = (float)(now - m_prevTime) / SDL_GetPerformanceFrequency();
+    m_prevTime = now;
+
     SDL_Event event;
 
     while (SDL_PollEvent(&event)) {

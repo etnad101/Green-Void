@@ -9,8 +9,10 @@ class Player : public Renderable {
     Player() : Renderable(0, 0, playerWidth, playerHeight, "robot") {};
     Player(float x, float y) : Renderable(x, y, playerWidth, playerHeight, "robot") {};
 
-    void move(int xDir, int yDir);
+    void setSpeed(float speed);
+
+    void move(int xDir, int yDir, float deltaTime);
 
   private:
-    float m_speed = 0.02;
+    float m_speed = 3;
 };
