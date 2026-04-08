@@ -1,8 +1,6 @@
 #include <Game.h>
-#include <Tile.h>
 #include <Player.h>
-
-
+#include <Tile.h>
 
 int main(int argc, char* argv[]) {
     Game game;

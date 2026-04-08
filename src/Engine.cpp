@@ -1,16 +1,13 @@
 #include "Engine.h"
+#include "TextureManager.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include <string>
 #include <iostream>
-#include "TextureManager.h"
+#include <string>
 
-Engine::Engine(int width, int height, const std::string& title)
-    : m_width(width), m_height(height), m_title(title) {}
+Engine::Engine(int width, int height, const std::string& title) : m_width(width), m_height(height), m_title(title) {}
 
-Engine::~Engine() {
-    clean();
-}
+Engine::~Engine() { clean(); }
 
 void Engine::initTextures() {
     m_textureManager = TextureManager(m_renderer);
@@ -32,10 +29,7 @@ bool Engine::init() {
         return false;
     }
 
-    m_window = SDL_CreateWindow(m_title.c_str(),
-                                SDL_WINDOWPOS_CENTERED,
-                                SDL_WINDOWPOS_CENTERED,
-                                m_width, m_height,
+    m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height,
                                 SDL_WINDOW_SHOWN);
     if (!m_window) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
@@ -43,11 +37,8 @@ bool Engine::init() {
         return false;
     }
 
-
-    m_renderer = std::shared_ptr<SDL_Renderer>(
-        SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED),
-        SDL_DestroyRenderer
-    );
+    m_renderer =
+        std::shared_ptr<SDL_Renderer>(SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED), SDL_DestroyRenderer);
 
     if (!m_renderer.get()) {
         std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
@@ -62,19 +53,16 @@ bool Engine::init() {
     return true;
 }
 
-void Engine::addRenderable(const Renderable* r) {
-    m_renderables.push_back(r);
-}
+void Engine::addRenderable(const Renderable* r) { m_renderables.push_back(r); }
 
-
-void Engine::render(const Renderable *r) {
+void Engine::render(const Renderable* r) {
     SDL_Texture* tex = m_textureManager.getTexture(r->getTextureHandle());
     SDL_Rect dst = r->getRect();
 
     int camScreenX = (camera.getX() - camera.getY()) * dst.w / 2;
     int camScreenY = (camera.getX() + camera.getY()) * dst.h / 4;
 
-    dst.x += (m_width  / 2) - (dst.w / 2) - camScreenX;
+    dst.x += (m_width / 2) - (dst.w / 2) - camScreenX;
     dst.y += (m_height / 2) - (dst.h / 2) - camScreenY;
 
     SDL_RenderCopy(m_renderer.get(), tex, nullptr, &dst);
@@ -96,15 +84,15 @@ void Engine::tick() {
 
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
-            case SDL_QUIT:
-                m_running = false;
-                break;
-            case SDL_KEYDOWN:
-                m_keysPressed[event.key.keysym.sym] = true;
-                break;
-            case SDL_KEYUP:
-                m_keysPressed[event.key.keysym.sym] = false;
-                break;
+        case SDL_QUIT:
+            m_running = false;
+            break;
+        case SDL_KEYDOWN:
+            m_keysPressed[event.key.keysym.sym] = true;
+            break;
+        case SDL_KEYUP:
+            m_keysPressed[event.key.keysym.sym] = false;
+            break;
         }
     }
 

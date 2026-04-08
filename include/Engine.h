@@ -1,16 +1,16 @@
 #pragma once
 
+#include "Camera.h"
+#include "Renderable.h"
+#include "TextureManager.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "Camera.h"
-#include "TextureManager.h"
-#include "Renderable.h"
 
 class Engine {
-public:
+  public:
     Engine(int width = 800, int height = 600, const std::string& title = "Green Void");
     ~Engine();
 
@@ -22,20 +22,20 @@ public:
 
     bool isRunning() const { return m_running; }
 
-    void addRenderable(const Renderable *r);
+    void addRenderable(const Renderable* r);
 
     bool isKeyPressed(SDL_Keycode key) const;
 
-public:
+  public:
     Camera camera;
 
-private:
+  private:
     void initTextures();
 
     void render(const Renderable* r);
     void render(std::vector<const Renderable*> renderables);
 
-private:
+  private:
     int m_width;
     int m_height;
     std::string m_title;

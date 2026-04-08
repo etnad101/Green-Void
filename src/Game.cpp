@@ -9,9 +9,7 @@ Game::Game() {
     m_engine = Engine(windowWidth, windowHeight, "Green Void");
 }
 
-Game::~Game() {
-
-}
+Game::~Game() {}
 
 bool Game::init() {
     if (!m_engine.init()) {

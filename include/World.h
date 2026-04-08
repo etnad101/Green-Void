@@ -3,12 +3,12 @@
 #include <vector>
 
 class World {
-public:
+  public:
     World();
     ~World();
 
     std::vector<Tile>& getTiles();
 
-private:
+  private:
     std::vector<Tile> m_tiles;
 };

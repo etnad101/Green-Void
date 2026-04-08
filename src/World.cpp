@@ -9,10 +9,6 @@ World::World() {
     }
 }
 
-World::~World() {
+World::~World() {}
 
-}
-
-std::vector<Tile>& World::getTiles() {
-    return m_tiles;
-}
+std::vector<Tile>& World::getTiles() { return m_tiles; }

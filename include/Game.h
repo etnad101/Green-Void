@@ -1,17 +1,17 @@
 #pragma once
-#include "Player.h"
 #include "Engine.h"
+#include "Player.h"
 #include "World.h"
 
 class Game {
-public:
+  public:
     Game();
     ~Game();
 
     bool init();
     void run();
 
-private:
+  private:
     Engine m_engine;
     Player m_player;
     World m_world;

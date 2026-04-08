@@ -1,15 +1,13 @@
 #include "TextureManager.h"
-#include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <unordered_map>
+#include <iostream>
 #include <string>
+#include <unordered_map>
 
-TextureManager::TextureManager()
-: m_renderer(nullptr) {}
+TextureManager::TextureManager() : m_renderer(nullptr) {}
 
-TextureManager::TextureManager(std::shared_ptr<SDL_Renderer> renderer)
-: m_renderer(renderer) {}
+TextureManager::TextureManager(std::shared_ptr<SDL_Renderer> renderer) : m_renderer(renderer) {}
 
 TextureManager::~TextureManager() {
     for (auto [id, tex] : m_textures) {
@@ -45,6 +43,4 @@ bool TextureManager::loadTexture(std::string id, std::string path) {
     return true;
 }
 
-SDL_Texture* TextureManager::getTexture(std::string id) {
-    return m_textures.at(id);
-}
+SDL_Texture* TextureManager::getTexture(std::string id) { return m_textures.at(id); }

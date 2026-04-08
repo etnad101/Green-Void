@@ -3,7 +3,7 @@
 #include <string>
 
 class Renderable {
-public:
+  public:
     Renderable(float x, float y, int w, int h, std::string texHandle);
 
     void setTextureHandle(std::string handle);
@@ -15,12 +15,11 @@ public:
     inline float getW() const { return m_w; }
     inline float getH() const { return m_h; }
 
-
-protected:
+  protected:
     float m_x;
     float m_y;
 
-private:
+  private:
     std::string m_texHandle;
     float m_w;
     float m_h;
