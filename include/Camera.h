@@ -1,15 +1,16 @@
 #pragma once
+#include "Renderable.h"
 
 class Camera {
 public:
     Camera();
     Camera(int x, int y);
 
-    inline int getX() const { return m_x; }
-    inline int getY() const { return m_y; }
+    inline float getX() const { return m_x; }
+    inline float getY() const { return m_y; }
 
-    void move(int x, int y);
+    void follow(const Renderable& target);;
 private:
-    int m_x = 0;
-    int m_y = 0;
+    float m_x = 0.0f;
+    float m_y = 0.0f;
 };

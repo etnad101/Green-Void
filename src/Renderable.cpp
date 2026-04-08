@@ -13,10 +13,10 @@ std::string Renderable::getTextureHandle() const {
 
 SDL_Rect Renderable::getRect() const {
     SDL_Rect rect;
-    rect.x = (m_x - m_y) * m_w / 2;
-    rect.y = (m_x + m_y) * m_h / 4;
-    rect.w = m_w;
-    rect.h = m_h;
+    rect.x = (int)((m_x - m_y) * m_w / 2);
+    rect.y = (int)((m_x + m_y) * m_h / 4);
+    rect.w = (int) m_w;
+    rect.h = (int) m_h;
 
     return rect;
 }

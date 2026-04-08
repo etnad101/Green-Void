@@ -70,10 +70,12 @@ void Engine::addRenderable(const Renderable* r) {
 void Engine::render(const Renderable *r) {
     SDL_Texture* tex = m_textureManager.getTexture(r->getTextureHandle());
     SDL_Rect dst = r->getRect();
-    dst.x += (m_width / 2) - 32;
 
-    dst.x -= camera.getX();
-    dst.y -= camera.getY();
+    int camScreenX = (camera.getX() - camera.getY()) * dst.w / 2;
+    int camScreenY = (camera.getX() + camera.getY()) * dst.h / 4;
+
+    dst.x += (m_width  / 2) - (dst.w / 2) - camScreenX;
+    dst.y += (m_height / 2) - (dst.h / 2) - camScreenY;
 
     SDL_RenderCopy(m_renderer.get(), tex, nullptr, &dst);
 }
